@@ -1,66 +1,43 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
 
-export default function Home() {
+import Link from 'next/link';
+import { useGameStore } from '@/lib/gameStore';
+
+export default function HomePage() {
+  const gameHistory = useGameStore((s) => s.gameHistory);
+  const resetGame = useGameStore((s) => s.resetGame);
+
+  const handleNewGame = () => {
+    resetGame();
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="page page--center">
+      <div className="fade-in" style={{ marginTop: '-40px' }}>
+        <div className="start-logo">🎯</div>
+        <h1 className="title title--xl">Alias</h1>
+        <p className="subtitle">
+          Пояснюй слова, грай з друзями!<br />
+          Мобільна гра для компанії
+        </p>
+
+        <div className="start-buttons">
+          <Link href="/setup" onClick={handleNewGame} className="btn btn--primary btn--lg btn--full" id="btn-new-game">
+            🎮 Нова гра
+          </Link>
+          <Link href="/history" className="btn btn--ghost btn--full" id="btn-history">
+            📜 Історія ігор
+            {gameHistory.length > 0 && (
+              <span className="counter-badge">{gameHistory.length}</span>
+            )}
+          </Link>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
+
+      <div className="slide-up" style={{ marginTop: '48px', color: 'var(--text-muted)', fontSize: '0.82rem' }}>
+        <p>🇺🇦 700+ українських слів</p>
+        <p style={{ marginTop: '4px' }}>3 рівні складності • до 6 команд</p>
+      </div>
     </div>
   );
 }
