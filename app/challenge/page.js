@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useGameStore } from '@/lib/gameStore';
@@ -41,11 +41,13 @@ export default function ChallengePage() {
     router.push('/results');
   };
 
-  // If no last word, go to results
-  if (!lastWord) {
-    router.push('/results');
-    return null;
-  }
+  useEffect(() => {
+    if (!lastWord) {
+      router.push('/results');
+    }
+  }, [lastWord, router]);
+
+  if (!lastWord) return null;
 
   return (
     <div className="page page--center fade-in">
